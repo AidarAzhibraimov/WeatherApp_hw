@@ -43,6 +43,7 @@ public class WeatherDetailFragment extends BaseFragment<FragmentWeatherDetailBin
 
     @Override
     protected void setupListeners() {
+
         viewBinding.btnGetCity.setOnClickListener(view -> {
             WeatherDetailFragmentDirections.ActionWeatherDetailFragmentToWeatherAppFragment action = WeatherDetailFragmentDirections.actionWeatherDetailFragmentToWeatherAppFragment();
             action.setCity(viewBinding.etCityName.getText().toString());
