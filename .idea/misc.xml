@@ -11,7 +11,9 @@
         <entry key="app/src/main/res/drawable/ic_graphic.xml" value="0.1215" />
         <entry key="app/src/main/res/drawable/rectangle.xml" value="0.1215" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/fragment_city_weather.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_weather_app.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_weather_detail.xml" value="0.22" />
       </map>
     </option>
   </component>

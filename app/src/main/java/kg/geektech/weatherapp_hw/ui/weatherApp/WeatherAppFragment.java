@@ -1,5 +1,6 @@
 package kg.geektech.weatherapp_hw.ui.weatherApp;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,12 +11,14 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import kg.geektech.weatherapp_hw.R;
 import kg.geektech.weatherapp_hw.base.BaseFragment;
 import kg.geektech.weatherapp_hw.common.Resource;
 import kg.geektech.weatherapp_hw.data.models.MainResponse;
 import kg.geektech.weatherapp_hw.databinding.FragmentWeatherAppBinding;
 
+@AndroidEntryPoint
 public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> {
 
     private WeatherViewModel viewModel;
@@ -51,20 +54,20 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
         super.onResume();
         Calendar uh = Calendar.getInstance();
         int timeOfDay = uh.get(Calendar.HOUR_OF_DAY);
-
-        if (timeOfDay >= 0 && timeOfDay < 12) {
+        if (timeOfDay < 12) {
             viewBinding.ivWeather.setImageResource(R.drawable.ic_graphic);
-        } else if (timeOfDay >= 12 && timeOfDay < 24) {
+        } else {
             viewBinding.ivWeather.setImageResource(R.drawable.ic_weather);
         }
     }
     public static String getDate(Integer milliSeconds, String dateFormat) {
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
 
+    @SuppressLint("SetTextI18n")
     private void setData(MainResponse data) {
         viewBinding.some.setText(data.getMain().getTemp().toString());
         viewBinding.tv35.setText(data.getMain().getTempMax().toString());
@@ -81,6 +84,10 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
 
     @Override
     protected void setupListeners() {
+        viewBinding.tvName.setOnClickListener(view -> {
+            controller.navigateUp();
+            controller.navigate(R.id.weatherDetailFragment);
+        });
 
     }
 
@@ -92,6 +99,6 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
 
     @Override
     protected void callRequest() {
-        viewModel.getWeather();
+        viewModel.getWeather(getArguments().getString("city","Bishkek"));
     }
 }

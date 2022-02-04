@@ -1,5 +1,7 @@
 package kg.geektech.weatherapp_hw.data.remote;
 
+import javax.xml.transform.Result;
+
 import kg.geektech.weatherapp_hw.data.models.MainResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +15,4 @@ public interface WeatherApi {
             @Query("appid") String appId,
             @Query("units") String temp
     );
-
 }
