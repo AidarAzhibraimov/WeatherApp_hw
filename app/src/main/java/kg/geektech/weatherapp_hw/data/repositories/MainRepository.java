@@ -1,6 +1,5 @@
 package kg.geektech.weatherapp_hw.data.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import javax.inject.Inject;

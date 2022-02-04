@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,9 @@ public class WeatherDetailFragment extends BaseFragment<FragmentWeatherDetailBin
     @Override
     protected void setupListeners() {
         viewBinding.btnGetCity.setOnClickListener(view -> {
-            controller.navigateUp();
-            Bundle bundle = new Bundle();
-            bundle.putString("city",viewBinding.etCityName.getText().toString());
-            controller.navigate(R.id.weatherAppFragment,bundle);
+            WeatherDetailFragmentDirections.ActionWeatherDetailFragmentToWeatherAppFragment action = WeatherDetailFragmentDirections.actionWeatherDetailFragmentToWeatherAppFragment();
+            action.setCity(viewBinding.etCityName.getText().toString());
+            controller.navigate(action);
         });
 
     }

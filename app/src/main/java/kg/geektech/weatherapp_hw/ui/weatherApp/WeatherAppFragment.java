@@ -31,7 +31,7 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
     @Override
     protected void setupObservers() {
         viewModel.weatherLiveData.observe(getViewLifecycleOwner(), resource -> {
-            switch (resource.status){
+            switch (resource.status) {
                 case SUCCESS: {
                     viewBinding.progress.setVisibility(View.GONE);
                     setData(resource.data);
@@ -49,6 +49,7 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
             }
         });
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -60,6 +61,7 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
             viewBinding.ivWeather.setImageResource(R.drawable.ic_weather);
         }
     }
+
     public static String getDate(Integer milliSeconds, String dateFormat) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
         Calendar calendar = Calendar.getInstance();
@@ -76,9 +78,9 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
         viewBinding.textViewHumidity.setText(data.getMain().getHumidity().toString() + "%");
         viewBinding.textViewBarometer.setText(data.getMain().getPressure().toString() + "mBar");
         viewBinding.textViewWind.setText(data.getWind().getSpeed().toString() + "km/h");
-        viewBinding.tvSunsetS.setText(getDate(data.getSys().getSunset(), "hh:mm")+ "Am");
-        viewBinding.tvSunriseE.setText(getDate(data.getSys().getSunrise(),"hh:mm")+ "Pm");
-        viewBinding.tvDaytime.setText(getDate(data.getDt(),"hh:mm" ));
+        viewBinding.tvSunsetS.setText(getDate(data.getSys().getSunset(), "hh:mm") + "Am");
+        viewBinding.tvSunriseE.setText(getDate(data.getSys().getSunrise(), "hh:mm") + "Pm");
+        viewBinding.tvDaytime.setText(getDate(data.getDt(), "hh:mm"));
 
     }
 
@@ -86,7 +88,7 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
     protected void setupListeners() {
         viewBinding.tvName.setOnClickListener(view -> {
             controller.navigateUp();
-            controller.navigate(R.id.weatherDetailFragment);
+            controller.navigate(WeatherAppFragmentDirections.actionWeatherAppFragmentToWeatherDetailFragment());
         });
 
     }
@@ -99,6 +101,10 @@ public class WeatherAppFragment extends BaseFragment<FragmentWeatherAppBinding> 
 
     @Override
     protected void callRequest() {
-        viewModel.getWeather(getArguments().getString("city","Bishkek"));
+        if (WeatherAppFragmentArgs.fromBundle(getArguments()).getCity() == null) {
+            viewModel.getWeather("Bishkek");
+        } else {
+            viewModel.getWeather(WeatherAppFragmentArgs.fromBundle(getArguments()).getCity());
+        }
     }
 }
